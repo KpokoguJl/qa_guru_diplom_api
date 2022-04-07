@@ -1,0 +1,79 @@
+plugins {
+    id 'java-library'
+    id "io.qameta.allure" version "2.9.6"
+}
+
+repositories {
+    mavenCentral()
+}
+
+def selenideVersion = "6.3.5",
+    junitVersion = "5.8.2",
+    slf4jVersion = "1.7.36",
+    javaFakerVersion = "1.0.2",
+    allureSelenideVersion = "2.17.3",
+    allureRestAssuredVersion = "2.17.3",
+    ownerVersion = "1.0.12",
+    restAssuredVersion = "4.5.1",
+    assertjVersion = "3.22.0",
+    jsonPathVersion = "2.7.0",
+    lombokVersion = "1.18.22",
+    jacksonVersion = '2.11.2'
+
+group 'qa.guru.allure'
+version '1.0-SNAPSHOT'
+allure {
+    report {
+        version.set(allureSelenideVersion)
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureSelenideVersion)
+            }
+        }
+    }
+}
+
+dependencies {
+    testCompileOnly(
+            "org.projectlombok:lombok:$lombokVersion"
+    )
+    testAnnotationProcessor(
+            "org.projectlombok:lombok:$lombokVersion"
+    )
+    testImplementation(
+            "com.codeborne:selenide:$selenideVersion",
+            "com.github.javafaker:javafaker:$javaFakerVersion",
+            "io.qameta.allure:allure-selenide:$allureSelenideVersion",
+            "io.qameta.allure:allure-rest-assured:$allureRestAssuredVersion",
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion",
+            "org.aeonbits.owner:owner:$ownerVersion",
+            "io.rest-assured:rest-assured:$restAssuredVersion",
+            "io.rest-assured:json-schema-validator:$restAssuredVersion",
+            "org.assertj:assertj-core:$assertjVersion",
+            "com.jayway.jsonpath:json-path:$jsonPathVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    )
+    testRuntimeOnly(
+            "org.slf4j:slf4j-simple:$slf4jVersion",
+            "org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    systemProperties(System.getProperties())
+    useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+//            events "started", "failed"
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}

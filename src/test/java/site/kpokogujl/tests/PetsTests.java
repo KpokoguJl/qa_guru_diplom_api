@@ -1,6 +1,8 @@
 package site.kpokogujl.tests;
 
+import io.qameta.allure.*;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import site.kpokogujl.domain.pets.Pet;
 import site.kpokogujl.helpers.pets.AddPetToPetstore;
@@ -20,6 +22,11 @@ import static site.kpokogujl.specs.pets.PetsSpecs.responseSpec;
 public class PetsTests {
 
     @Test
+    @Owner("allure8")
+    @Feature("API test Petstore.swagger.io")
+    @Story("Pets tests")
+    @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Добавление нового питомца в магазин")
     public void addPetTest () {
 
         step("Подготавливаю нового питомца.");
@@ -36,6 +43,11 @@ public class PetsTests {
     }
 
     @Test
+    @Owner("allure8")
+    @Feature("API test Petstore.swagger.io")
+    @Story("Pets tests")
+    @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Получение питомца по его идентификатору")
     public void getPetByIdTest () {
 
         step("Подготавливаю нового питомца.");
@@ -55,6 +67,11 @@ public class PetsTests {
     }
 
     @Test
+    @Owner("allure8")
+    @Feature("API test Petstore.swagger.io")
+    @Story("Pets tests")
+    @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Обновление информации о питомце в магазине")
     public void updatePetTest () {
 
         step("Подготавливаю нового питомца.");
@@ -90,6 +107,11 @@ public class PetsTests {
     }
 
     @Test
+    @Owner("allure8")
+    @Feature("API test Petstore.swagger.io")
+    @Story("Pets tests")
+    @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Удаление питомца из магазина")
     public void deletePetTest () {
 
         step("Подготавливаю нового питомца.");

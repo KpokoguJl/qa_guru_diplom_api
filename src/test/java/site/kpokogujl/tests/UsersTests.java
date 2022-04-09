@@ -1,5 +1,7 @@
 package site.kpokogujl.tests;
 
+import io.qameta.allure.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import site.kpokogujl.domain.users.User;
 
@@ -15,6 +17,11 @@ import static site.kpokogujl.specs.users.UsersSpecs.userResponseSpec;
 public class UsersTests {
 
     @Test
+    @Owner("allure8")
+    @Feature("API test Petstore.swagger.io")
+    @Story("Users tests")
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Создание нового пользователя в системе")
     public void createUserTest() {
 
         step("Подготавливаю нового юзера.");
@@ -29,6 +36,11 @@ public class UsersTests {
     }
 
     @Test
+    @Owner("allure8")
+    @Feature("API test Petstore.swagger.io")
+    @Story("Users tests")
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Получение пользователя из системе по его username")
     public void getUserByUsernameTest(){
 
         step("Подготавливаю нового юзера.");

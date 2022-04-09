@@ -1,13 +1,13 @@
-package site.kpokogujl.helpers;
+package site.kpokogujl.helpers.pets;
 
 import io.restassured.response.Response;
-import site.kpokogujl.domain.Pet;
+import site.kpokogujl.domain.pets.Pet;
 
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static site.kpokogujl.specs.PetstoreSpecs.requestSpec;
-import static site.kpokogujl.specs.PetstoreSpecs.responseSpec;
+import static site.kpokogujl.specs.pets.PetsSpecs.requestSpec;
+import static site.kpokogujl.specs.pets.PetsSpecs.responseSpec;
 
 public class GetPetFromPetstore {
     public static Pet getPetById (String petId) {
@@ -20,8 +20,8 @@ public class GetPetFromPetstore {
                         .get("pet/" + petId)
                     .then()
                         .spec(responseSpec)
-                        .log().all()
-                        .body(matchesJsonSchemaInClasspath("schemas/get_pet_petstore_schema.json"))
+                        .body(matchesJsonSchemaInClasspath("schemas/pets/get_pet_petstore_schema.json"))
+                        .statusCode(200)
                         .extract().response();
 
         step("Получен ответ: " + response.statusCode());

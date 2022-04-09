@@ -2,56 +2,45 @@ package site.kpokogujl.tests;
 
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import site.kpokogujl.domain.Pet;
-import site.kpokogujl.helpers.AddPetToPetstore;
-import site.kpokogujl.helpers.GetPetFromPetstore;
+import site.kpokogujl.domain.pets.Pet;
+import site.kpokogujl.helpers.pets.AddPetToPetstore;
+import site.kpokogujl.helpers.pets.GetPetFromPetstore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static site.kpokogujl.specs.PetstoreSpecs.requestSpec;
-import static site.kpokogujl.specs.PetstoreSpecs.responseSpec;
+import static org.assertj.core.api.Assertions.assertThat;
+import static site.kpokogujl.helpers.pets.PreparePet.preparePet;
+import static site.kpokogujl.specs.pets.PetsSpecs.requestSpec;
+import static site.kpokogujl.specs.pets.PetsSpecs.responseSpec;
 
-public class PetstoreTests {
-
-    private final String photoUrl = "https://avatars.mds.yandex.net/i?id=3f630e3cff2e165a39a8536541e8592a-5175116-images-thumbs&n=13";
+public class PetsTests {
 
     @Test
     public void addPetTest () {
 
         step("Подготавливаю нового питомца.");
-        Pet pet = Pet
-                .builder()
-                .name("SomePetName")
-                .photoUrls(new ArrayList<>(List.of(photoUrl)))
-                .build();
-
-        step("Питомец создан: " + pet);
+        Pet pet = preparePet();
+        step("Питомец подготовлен: " + pet);
 
         step("Отправляю запрос на добавление питомца.");
         Pet newPetInStore = AddPetToPetstore.addPet(pet);
 
         step("Проверяю что в ответе корректные данные. Имя: " + newPetInStore.getName() + " == SomePetName");
-        assert newPetInStore.getName().equals("SomePetName");
+        assertThat(newPetInStore.getName()).isEqualTo(pet.getName());
         step("Проверяю что в ответе корректные данные. URL фото.");
-        assert newPetInStore.getPhotoUrls().contains(photoUrl);
+        assertThat(newPetInStore.getPhotoUrls()).isEqualTo(pet.getPhotoUrls());
     }
 
     @Test
     public void getPetByIdTest () {
 
         step("Подготавливаю нового питомца.");
-        Pet pet = Pet
-                .builder()
-                .name("SomePetName")
-                .photoUrls(new ArrayList<>(List.of(photoUrl)))
-                .build();
-
-        step("Питомец создан: " + pet);
+        Pet pet = preparePet();
+        step("Питомец подготовлен: " + pet);
 
         step("Отправляю запрос на добавление питомца.");
         Pet newPetInStore = AddPetToPetstore.addPet(pet);
@@ -60,22 +49,17 @@ public class PetstoreTests {
         Pet petFromPetstore = GetPetFromPetstore.getPetById(String.valueOf(newPetInStore.getId()));
 
         step("Проверяю что в ответе корректные данные. Имя: " + petFromPetstore.getName() + " == SomePetName");
-        assert petFromPetstore.getName().equals("SomePetName");
+        assertThat(petFromPetstore.getName()).isEqualTo(pet.getName());
         step("Проверяю что в ответе корректные данные. URL фото." + petFromPetstore.getName() + " == SomePetName");
-        assert petFromPetstore.getPhotoUrls().contains(photoUrl);
+        assertThat(petFromPetstore.getPhotoUrls()).isEqualTo(pet.getPhotoUrls());
     }
 
     @Test
     public void updatePetTest () {
 
         step("Подготавливаю нового питомца.");
-        Pet pet = Pet
-                .builder()
-                .name("SomePetName")
-                .photoUrls(new ArrayList<>(List.of(photoUrl)))
-                .build();
-
-        step("Питомец создан: " + pet);
+        Pet pet = preparePet();
+        step("Питомец подготовлен: " + pet);
 
         step("Отправляю запрос на добавление питомца.");
         Pet newPetInStore = AddPetToPetstore.addPet(pet);
@@ -93,30 +77,24 @@ public class PetstoreTests {
                         .put("pet")
                     .then()
                         .spec(responseSpec)
-                        .log().all()
-                        .body(matchesJsonSchemaInClasspath("schemas/post_pet_petstore_schema.json"))
+                        .body(matchesJsonSchemaInClasspath("schemas/pets/post_pet_petstore_schema.json"))
                         .extract().response();
 
         step("Получен ответ: " + response.statusCode());
         step("Ответ соответствует JSON схеме.");
 
         step("Проверяю что в ответе корректные данные. Имя: " + response.as(Pet.class).getName() + " == SomePetName");
-        assert response.as(Pet.class).getName().equals("NewPetName");
+        assertThat(response.as(Pet.class).getName()).isEqualTo("NewPetName");
         step("Проверяю что в ответе корректные данные. URL фото.");
-        assert response.as(Pet.class).getPhotoUrls().contains("none");
+        assertThat(response.as(Pet.class).getPhotoUrls()).contains("none");
     }
 
     @Test
     public void deletePetTest () {
 
         step("Подготавливаю нового питомца.");
-        Pet pet = Pet
-                .builder()
-                .name("SomePetName")
-                .photoUrls(new ArrayList<>(List.of(photoUrl)))
-                .build();
-
-        step("Питомец создан: " + pet);
+        Pet pet = preparePet();
+        step("Питомец подготовлен: " + pet);
 
         step("Отправляю запрос на добавление питомца.");
         Pet newPetInStore = AddPetToPetstore.addPet(pet);
@@ -130,8 +108,7 @@ public class PetstoreTests {
                         .delete("pet/" + newPetInStore.getId())
                     .then()
                         .spec(responseSpec)
-                        .log().all()
-                        .body(matchesJsonSchemaInClasspath("schemas/delete_pet_petstore_schema.json"))
+                        .body(matchesJsonSchemaInClasspath("schemas/pets/delete_pet_petstore_schema.json"))
                         .extract().response();
 
         step("Получен ответ: " + response.statusCode());

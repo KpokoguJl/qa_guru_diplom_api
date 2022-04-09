@@ -1,4 +1,4 @@
-package site.kpokogujl.domain;
+package site.kpokogujl.domain.pets;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,13 +18,10 @@ public class Pet {
 
     private long id;
     private String name;
-    @JsonProperty("status")
     String status;
-    @JsonProperty("photoUrls")
     private List<String> photoUrls;
     @JsonProperty("tags")
     List<Tags> tags;
-    @JsonProperty("category")
     Category category;
 
 }

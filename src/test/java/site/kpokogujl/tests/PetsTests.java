@@ -15,6 +15,7 @@ import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.assertj.core.api.Assertions.assertThat;
+import static site.kpokogujl.helpers.pets.AddPetToPetstore.addPet;
 import static site.kpokogujl.helpers.pets.PreparePet.preparePet;
 import static site.kpokogujl.specs.pets.PetsSpecs.requestSpec;
 import static site.kpokogujl.specs.pets.PetsSpecs.responseSpec;
@@ -33,8 +34,7 @@ public class PetsTests {
         Pet pet = preparePet();
         step("Питомец подготовлен: " + pet);
 
-        step("Отправляю запрос на добавление питомца.");
-        Pet newPetInStore = AddPetToPetstore.addPet(pet);
+        Pet newPetInStore = addPet(pet);
 
         step("Проверяю что в ответе корректные данные. Имя: " + newPetInStore.getName() + " == SomePetName");
         assertThat(newPetInStore.getName()).isEqualTo(pet.getName());
@@ -54,8 +54,7 @@ public class PetsTests {
         Pet pet = preparePet();
         step("Питомец подготовлен: " + pet);
 
-        step("Отправляю запрос на добавление питомца.");
-        Pet newPetInStore = AddPetToPetstore.addPet(pet);
+        Pet newPetInStore = addPet(pet);
 
         step("Отправляю запрос на получение питомца.");
         Pet petFromPetstore = GetPetFromPetstore.getPetById(String.valueOf(newPetInStore.getId()));
@@ -78,8 +77,7 @@ public class PetsTests {
         Pet pet = preparePet();
         step("Питомец подготовлен: " + pet);
 
-        step("Отправляю запрос на добавление питомца.");
-        Pet newPetInStore = AddPetToPetstore.addPet(pet);
+        Pet newPetInStore = addPet(pet);
 
         step("Меняю данные питомца.");
         newPetInStore.setName("NewPetName");
@@ -118,8 +116,7 @@ public class PetsTests {
         Pet pet = preparePet();
         step("Питомец подготовлен: " + pet);
 
-        step("Отправляю запрос на добавление питомца.");
-        Pet newPetInStore = AddPetToPetstore.addPet(pet);
+        Pet newPetInStore = addPet(pet);
 
         step("Отправляю запрос на удаление питомца.");
         Response response =

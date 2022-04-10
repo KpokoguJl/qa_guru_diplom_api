@@ -40,7 +40,7 @@ public class UsersTests {
     @Feature("API test Petstore.swagger.io")
     @Story("Users tests")
     @Severity(SeverityLevel.CRITICAL)
-    @DisplayName("Получение пользователя из системе по его username")
+    @DisplayName("Получение пользователя из системы по его username")
     public void getUserByUsernameTest(){
 
         step("Подготавливаю нового юзера.");

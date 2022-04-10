@@ -26,7 +26,7 @@
 - спецификации (RequestSpecification), 
 - генерация тестовых данных (Faker), 
 - конфигурации (Owner),
-- проверки (Assertj)
+- проверки (AssertJ)
 - шаблоны логирования запросов (AllureRestAssured FILTERS). 
 
 # Запуск тестов

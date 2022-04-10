@@ -23,7 +23,7 @@
 
 Используются: 
 - модели (Lombok), 
-- спецификации (RequestSpecification), г
+- спецификации (RequestSpecification), 
 - генерация тестовых данных (Faker), 
 - конфигурации (Owner),
 - проверки (Assertj)

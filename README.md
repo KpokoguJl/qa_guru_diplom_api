@@ -12,7 +12,6 @@
 <img width="16%" title="Allure Report" src="media/Allure_Report.svg">
 <img width="16%" title="GitHub" src="media/GitHub.svg">
 <img width="16%" title="Jenkins" src="media/Jenkins.svg">
-<img width="16%" title="Selenoid" src="media/Selenoid.svg">
 <img width="15%" title="Allure TestOps" src="media/Allure-logo.svg">
 </p>
 

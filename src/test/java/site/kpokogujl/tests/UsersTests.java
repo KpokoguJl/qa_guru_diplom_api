@@ -23,12 +23,7 @@ public class UsersTests {
     @Severity(SeverityLevel.CRITICAL)
     @DisplayName("Создание нового пользователя в системе")
     public void createUserTest() {
-
-        step("Подготавливаю нового юзера.");
         User user = prepareUser();
-        step("Юзер подготовлен: " + user);
-
-        step("Отправляю запрос на создание юзера.");
         user.setId(createUser(user).getId());
 
         step("Проверяю, что id юзера заполнен.");
@@ -41,28 +36,22 @@ public class UsersTests {
     @Story("Users tests")
     @Severity(SeverityLevel.CRITICAL)
     @DisplayName("Получение пользователя из системы по его username")
-    public void getUserByUsernameTest(){
-
-        step("Подготавливаю нового юзера.");
+    public void getUserByUsernameTest() {
         User user = prepareUser();
-        step("Юзер подготовлен: " + user);
-
-        step("Отправляю запрос на создание юзера.");
         user.setId(createUser(user).getId());
 
         step("Отправляю запрос на получение юзера по username.");
         User userFromApi =
                 given()
                         .spec(userRequestSpec)
-                    .when()
+                        .when()
                         .get("user/" + user.getUsername())
-                    .then()
+                        .then()
                         .spec(userResponseSpec)
                         .body(matchesJsonSchemaInClasspath("schemas/users/get_user_by_username_petstore_schema.json"))
                         .extract().response().as(User.class);
 
-        step("Ответ получен.");
-
+        step("Получаю ответ.");
         step("Проверяю, что вернулся юзер, который запрашивался.");
         assertThat(userFromApi).isEqualTo(user);
     }

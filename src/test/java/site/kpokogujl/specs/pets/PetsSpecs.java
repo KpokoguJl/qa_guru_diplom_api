@@ -14,13 +14,13 @@ public class PetsSpecs {
     protected static final String API_BASE_URL = ConfigHelper.getBaseURL();
 
 
-    public static  RequestSpecification requestSpec =
+    public static RequestSpecification requestSpec =
             with()
-            .filters(CustomAllureListener.withCustomTemplates())
-            .baseUri(API_BASE_URL)
-            .basePath("v2/")
-            .contentType(ContentType.JSON)
-            .log().all();
+                    .filters(CustomAllureListener.withCustomTemplates())
+                    .baseUri(API_BASE_URL)
+                    .basePath("v2/")
+                    .contentType(ContentType.JSON)
+                    .log().all();
 
     public static ResponseSpecification responseSpec = new ResponseSpecBuilder()
             .expectStatusCode(200)

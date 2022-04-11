@@ -23,5 +23,4 @@ public class Pet {
     @JsonProperty("tags")
     List<Tags> tags;
     Category category;
-
 }

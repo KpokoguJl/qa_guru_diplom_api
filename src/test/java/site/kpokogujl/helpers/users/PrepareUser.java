@@ -1,12 +1,14 @@
 package site.kpokogujl.helpers.users;
 
 import com.github.javafaker.Faker;
+import io.qameta.allure.Step;
 import site.kpokogujl.domain.users.User;
 
 public class PrepareUser {
     static Faker faker = new Faker();
 
-    public static User prepareUser(){
+    @Step("Подготавливаю нового юзера.")
+    public static User prepareUser() {
         return User
                 .builder()
                 .username(faker.name().username())

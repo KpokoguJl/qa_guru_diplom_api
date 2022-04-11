@@ -14,7 +14,7 @@ public class UsersSpecs {
     protected static final String API_BASE_URL = ConfigHelper.getBaseURL();
 
 
-    public static  RequestSpecification userRequestSpec =
+    public static RequestSpecification userRequestSpec =
             with()
                     .filters(CustomAllureListener.withCustomTemplates())
                     .baseUri(API_BASE_URL)

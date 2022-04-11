@@ -5,7 +5,6 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import site.kpokogujl.domain.pets.Pet;
-import site.kpokogujl.helpers.pets.AddPetToPetstore;
 import site.kpokogujl.helpers.pets.GetPetFromPetstore;
 
 import java.util.ArrayList;
@@ -28,12 +27,8 @@ public class PetsTests {
     @Story("Pets tests")
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Добавление нового питомца в магазин")
-    public void addPetTest () {
-
-        step("Подготавливаю нового питомца.");
+    public void addPetTest() {
         Pet pet = preparePet();
-        step("Питомец подготовлен: " + pet);
-
         Pet newPetInStore = addPet(pet);
 
         step("Проверяю что в ответе корректные данные. Имя: " + newPetInStore.getName() + " == SomePetName");
@@ -48,15 +43,10 @@ public class PetsTests {
     @Story("Pets tests")
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Получение питомца по его идентификатору")
-    public void getPetByIdTest () {
-
-        step("Подготавливаю нового питомца.");
+    public void getPetByIdTest() {
         Pet pet = preparePet();
-        step("Питомец подготовлен: " + pet);
-
         Pet newPetInStore = addPet(pet);
 
-        step("Отправляю запрос на получение питомца.");
         Pet petFromPetstore = GetPetFromPetstore.getPetById(String.valueOf(newPetInStore.getId()));
 
         step("Проверяю что в ответе корректные данные. Имя: " + petFromPetstore.getName() + " == SomePetName");
@@ -71,12 +61,8 @@ public class PetsTests {
     @Story("Pets tests")
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Обновление информации о питомце в магазине")
-    public void updatePetTest () {
-
-        step("Подготавливаю нового питомца.");
+    public void updatePetTest() {
         Pet pet = preparePet();
-        step("Питомец подготовлен: " + pet);
-
         Pet newPetInStore = addPet(pet);
 
         step("Меняю данные питомца.");
@@ -88,15 +74,15 @@ public class PetsTests {
                 given()
                         .spec(requestSpec)
                         .body(newPetInStore)
-                    .when()
+                        .when()
                         .put("pet")
-                    .then()
+                        .then()
                         .spec(responseSpec)
                         .body(matchesJsonSchemaInClasspath("schemas/pets/post_pet_petstore_schema.json"))
                         .extract().response();
 
-        step("Получен ответ: " + response.statusCode());
-        step("Ответ соответствует JSON схеме.");
+        step("Получаю ответ: " + response.statusCode());
+        step("Проверяю что ответ соответствует JSON схеме.");
 
         step("Проверяю что в ответе корректные данные. Имя: " + response.as(Pet.class).getName() + " == SomePetName");
         assertThat(response.as(Pet.class).getName()).isEqualTo("NewPetName");
@@ -110,12 +96,8 @@ public class PetsTests {
     @Story("Pets tests")
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Удаление питомца из магазина")
-    public void deletePetTest () {
-
-        step("Подготавливаю нового питомца.");
+    public void deletePetTest() {
         Pet pet = preparePet();
-        step("Питомец подготовлен: " + pet);
-
         Pet newPetInStore = addPet(pet);
 
         step("Отправляю запрос на удаление питомца.");
@@ -123,15 +105,15 @@ public class PetsTests {
                 given()
                         .spec(requestSpec)
                         .body(newPetInStore)
-                    .when()
+                        .when()
                         .delete("pet/" + newPetInStore.getId())
-                    .then()
+                        .then()
                         .spec(responseSpec)
                         .body(matchesJsonSchemaInClasspath("schemas/pets/delete_pet_petstore_schema.json"))
                         .extract().response();
 
-        step("Получен ответ: " + response.statusCode());
-        step("Ответ соответствует JSON схеме.");
+        step("Получаю ответ: " + response.statusCode());
+        step("Проверяю что ответ соответствует JSON схеме.");
 
         step("Проверяю что в ответе корректные данные.");
         assert response.body().path("code").equals(200);

@@ -8,7 +8,7 @@ public class ConfigHelper {
         return getConfig().getBaseUrl();
     }
 
-   private static TestsConfig getConfig() {
+    private static TestsConfig getConfig() {
         return ConfigFactory.newInstance().create(TestsConfig.class);
     }
 }
